@@ -14,11 +14,18 @@ const socket = io.connect("https://online-chat-900l.onrender.com");
 const Chat = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
-  const [params, setParams] = useState({ room: "", user: "" });
+  const [params, setParams] = useState({ room: "", user: "", id: "" });
   const [state, setState] = useState([]);
   const [message, setMessage] = useState("");
   const [isOpen, setOpen] = useState(false);
   const [users, setUsers] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (params.id === "1") {
+      setIsAdmin(true);
+    }
+  }, [params.id]);
 
   useEffect(() => {
     const searchParams = Object.fromEntries(new URLSearchParams(search));
@@ -57,6 +64,8 @@ const Chat = () => {
 
   const onEmojiClick = ({ emoji }) => setMessage(`${message} ${emoji}`);
 
+  const className = isAdmin ? styles.messages : styles.admin;
+
   return (
     <div className={styles.wrap}>
       <div className={styles.header}>
@@ -67,7 +76,7 @@ const Chat = () => {
         </button>
       </div>
 
-      <div className={styles.messages}>
+      <div className={`${styles.messages} ${className}`}>
         <Messages messages={state} name={params.name} />
       </div>
 
