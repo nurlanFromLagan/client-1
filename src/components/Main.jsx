@@ -7,12 +7,13 @@ import styles from "../styles/Main.module.css";
 const FIELDS = {
   NAME: "name",
   ROOM: "room",
+  ID: "id",
 };
 
 const Main = () => {
-  const { NAME, ROOM } = FIELDS;
+  const { NAME, ROOM, ID } = FIELDS;
 
-  const [values, setValues] = useState({ [NAME]: "", [ROOM]: "" });
+  const [values, setValues] = useState({ [NAME]: "", [ROOM]: "", [ID]: "" });
 
   const handleChange = ({ target: { value, name } }) => {
     setValues({ ...values, [name]: value });
@@ -54,11 +55,23 @@ const Main = () => {
               required
             />
           </div>
+          <div className={styles.group}>
+            <input
+              type="text"
+              name="id"
+              placeholder="Идентификатор"
+              value={values[ID]}
+              className={styles.input}
+              onChange={handleChange}
+              autoComplete="off"
+              required
+            />
+          </div>
 
           <Link
             className={styles.group}
             onClick={handleClick}
-            to={`/chat?name=${values[NAME]}&room=${values[ROOM]}`}>
+            to={`/chat?name=${values[NAME]}&room=${values[ROOM]}&id=${values[ID]}`}>
             <button type="submit" className={styles.button}>
               Присоедениться
             </button>
